@@ -1,0 +1,130 @@
+[gd_scene load_steps=5 format=3 uid="uid://bp1sbsywpy0kr"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_nni12"]
+[ext_resource type="Theme" uid="uid://boe6eb532btln" path="res://uitheme.tres" id="2_gryqf"]
+[ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="2_s61ca"]
+[ext_resource type="PackedScene" uid="uid://b00egxjoq0isf" path="res://dropdown.tscn" id="4_324wy"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_nni12")
+starting_money = null
+goal_price = null
+websocket_url = null
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_gryqf")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="StockChart" type="Control" parent="Panel/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme = ExtResource("2_gryqf")
+script = ExtResource("2_s61ca")
+x_max = 5.0
+show_x_numbers = false
+y_min = -2.0
+y_max = 10.0
+y_label = "Held Value (10000s)"
+background_color = Color(0.180005, 0.180005, 0.180005, 1)
+grid_horizontal_visible = true
+grid_vertical_visible = true
+
+[node name="PlayerMoneyDisplay" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Current Money = 10000 | To Win = 90000| Stock Value = 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Search And Buy" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy/VBoxContainer" instance=ExtResource("4_324wy")]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HSeparator" type="HSeparator" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy/VBoxContainer"]
+layout_mode = 2
+text = "Buy"
+
+[node name="Graph2D" type="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+script = ExtResource("2_s61ca")
+x_max = 5.0
+show_x_numbers = false
+y_max = 10.0
+y_label = "(100000s)"
+background_color = Color(0.180392, 0.180392, 0.180392, 1)
+grid_horizontal_visible = true
+grid_vertical_visible = true
+
+[node name="All Prices" type="HFlowContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="TabContainer" type="TabContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+current_tab = 0
+drag_to_rearrange_enabled = true
+
+[node name="News" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Profile" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Scoreboard" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
