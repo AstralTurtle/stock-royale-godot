@@ -142,7 +142,7 @@ func _process(delta: float) -> void:
 					# print(dict)
 					_uuid = dict['uuid']
 					player_name = dict['username']
-					$Timer.wait_time = 30
+					# $Timer.wait_time = 30
 					(%UUIDText as LineEdit).text = _uuid
 				if dict.has('stocks'):
 					# print(dict['stocks'])
@@ -169,8 +169,9 @@ func _process(delta: float) -> void:
 						label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 						label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 						label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-						label.clip_text = true
-						label.add_theme_font_size_override("font_size", 24)
+						label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+						label.add_theme_font_size_override("font_size", 16)
+						
 
 
 				if dict.has("users"):

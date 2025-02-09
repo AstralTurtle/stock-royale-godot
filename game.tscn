@@ -19,8 +19,8 @@ size_flags_vertical = 3
 script = ExtResource("1_nni12")
 starting_money = 10000.0
 goal_price = 100000.0
-websocket_url = "wss://echo.websocket.org"
-local = true
+websocket_url = "ws://96.246.209.39:8080"
+local = null
 local_url = "ws://127.0.0.1:8080"
 
 [node name="Panel" type="Panel" parent="."]
@@ -178,6 +178,3 @@ visible = false
 layout_mode = 2
 script = ExtResource("6_n2iwc")
 metadata/_tab_index = 2
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 10000.0
