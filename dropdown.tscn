@@ -18,5 +18,6 @@ size_flags_horizontal = 3
 [node name="PopupMenu" type="PopupMenu" parent="LineEdit"]
 
 [node name="Button" type="Button" parent="."]
+visible = false
 layout_mode = 2
 icon = ExtResource("2_a1y2s")

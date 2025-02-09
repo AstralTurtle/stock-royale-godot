@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bp1sbsywpy0kr"]
+[gd_scene load_steps=7 format=3 uid="uid://bp1sbsywpy0kr"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_nni12"]
 [ext_resource type="Theme" uid="uid://boe6eb532btln" path="res://uitheme.tres" id="2_gryqf"]
 [ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="2_s61ca"]
-[ext_resource type="PackedScene" uid="uid://b00egxjoq0isf" path="res://dropdown.tscn" id="4_324wy"]
+[ext_resource type="PackedScene" uid="uid://c7isra1hdi5xs" path="res://search_and_buy.tscn" id="4_4c30a"]
+[ext_resource type="Script" path="res://last_month.gd" id="5_c3wgx"]
+[ext_resource type="Script" path="res://scoreboard.gd" id="6_n2iwc"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -15,9 +17,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_nni12")
-starting_money = null
-goal_price = null
-websocket_url = null
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -67,45 +66,68 @@ vertical_alignment = 1
 [node name="TabContainer" type="TabContainer" parent="Panel/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 0
+current_tab = 1
 
-[node name="Search And Buy" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy/VBoxContainer" instance=ExtResource("4_324wy")]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="HSeparator" type="HSeparator" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy/VBoxContainer"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy/VBoxContainer"]
-layout_mode = 2
-text = "Buy"
-
-[node name="Graph2D" type="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Search And Buy"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-script = ExtResource("2_s61ca")
-x_max = 5.0
-show_x_numbers = false
-y_max = 10.0
-y_label = "(100000s)"
-background_color = Color(0.180392, 0.180392, 0.180392, 1)
-grid_horizontal_visible = true
-grid_vertical_visible = true
-
-[node name="All Prices" type="HFlowContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+[node name="Search And Buy" parent="Panel/HBoxContainer/VBoxContainer/TabContainer" instance=ExtResource("4_4c30a")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
+
+[node name="Sell Stocks" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
 metadata/_tab_index = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks/HBoxContainer"]
+layout_mode = 2
+text = " Sell "
+
+[node name="SellCount" type="LineEdit" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "number"
+
+[node name="Label2" type="Label" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks/HBoxContainer"]
+layout_mode = 2
+text = " of "
+
+[node name="SellOptions" type="OptionButton" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Label3" type="Label" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks/HBoxContainer"]
+layout_mode = 2
+text = " for ~ 100.00? "
+
+[node name="SellButton" type="Button" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Sell
+"
+
+[node name="Last Month Values" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Last Month" type="GridContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Last Month Values"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1600, 191)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 10
+script = ExtResource("5_c3wgx")
 
 [node name="TabContainer" type="TabContainer" parent="Panel/HBoxContainer"]
 layout_mode = 2
@@ -113,11 +135,31 @@ size_flags_horizontal = 3
 current_tab = 0
 drag_to_rearrange_enabled = true
 
-[node name="News" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
+[node name="Profile" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Profile" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
+[node name="LineEdit" type="LineEdit" parent="Panel/HBoxContainer/TabContainer/Profile"]
+layout_mode = 2
+placeholder_text = "Enter Nickname"
+
+[node name="UUIDText" type="LineEdit" parent="Panel/HBoxContainer/TabContainer/Profile"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Enter UUID to login"
+
+[node name="Label" type="Label" parent="Panel/HBoxContainer/TabContainer/Profile"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "If you have played before, enter your uuid above"
+autowrap_mode = 2
+
+[node name="ConnectButton" type="Button" parent="Panel/HBoxContainer/TabContainer/Profile"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Connect"
+
+[node name="News" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
@@ -125,6 +167,5 @@ metadata/_tab_index = 1
 [node name="Scoreboard" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
+script = ExtResource("6_n2iwc")
 metadata/_tab_index = 2
-
-[node name="HTTPRequest" type="HTTPRequest" parent="."]

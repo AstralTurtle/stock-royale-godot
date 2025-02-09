@@ -1,5 +1,5 @@
 extends Control
-
+class_name  StockSearch
 # Nodes
 var line_edit: LineEdit
 var popup_menu: PopupMenu
@@ -27,6 +27,7 @@ func _ready():
 
 # Called when the text in LineEdit changes
 func _on_text_changed(new_text):
+    print(all_items)
     # Filter items based on search text
     var filtered_items = []
     for item in all_items:
@@ -54,4 +55,5 @@ func update_popup_menu(items: Array):
 # Handle selection from PopupMenu
 func _on_item_selected(index):
     line_edit.text = popup_menu.get_item_text(index)  # Set selected text
+    search.emit(popup_menu.get_item_text(index))  # Emit signal with selected text
     popup_menu.hide()  # Hide popup after selection

@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7isra1hdi5xs"]
+
+[ext_resource type="Script" path="res://search_and_buy.gd" id="1_ohu6v"]
+[ext_resource type="PackedScene" uid="uid://b00egxjoq0isf" path="res://dropdown.tscn" id="2_de357"]
+[ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="3_m8nqt"]
+
+[node name="Search And Buy" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ohu6v")
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StockSearch" parent="VBoxContainer" instance=ExtResource("2_de357")]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Buy"
+
+[node name="HFlowContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HFlowContainer"]
+layout_mode = 2
+
+[node name="Graph2D" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+script = ExtResource("3_m8nqt")
+x_max = 5.0
+show_x_numbers = false
+y_max = 10.0
+y_label = "(100000s)"
+background_color = Color(0.180392, 0.180392, 0.180392, 1)
+grid_horizontal_visible = true
+grid_vertical_visible = true
