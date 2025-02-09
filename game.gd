@@ -41,7 +41,9 @@ var goal_price_scale: float = 10000
 
 var plot: PlotItem 	
 
-@export var websocket_url = "ws://127.0.0.1:8080"
+@export var websocket_url = "ws://96.246.209.39:8080"
+@export var local = false
+@export var local_url = "ws://127.0.0.1:8080"
 var socket: WebSocketPeer = WebSocketPeer.new()
 var socket_close_send = true
 # enum {}
@@ -61,9 +63,8 @@ func _randomize():
 
 
 func _ready() -> void:
-	_randomize()
 	goal_price_scale = (goal_price / stock_chart.y_max) 
-	print(goal_price_scale)
+	# print(goal_price_scale)
 	plot = stock_chart.add_plot_item("Held Value", Color.GREEN, 1.0)
 	for x in range(0,stock_chart.x_max+1):
 		var y = 0
@@ -89,17 +90,25 @@ func _on_poll_recieved(y):
 	points.push_back(y)
 	_graph_points()
 	
-func search(name: String):
+func search(sname: String):
 	for s in stocks:
-		if s.name == name:
+		if s.name == sname:
 			_sab(s)
 			return
 
+func _process(delta: float) -> void:
+	_poll()
 
-func _process(_delta: float) -> void:
+
+func _poll():
+	# print('polling')
 	if socket:
 		socket.poll()
-		print('poll')
+		# if not _uuid:q
+			# socket.send_text("give uuid pls")
+		# print('polled')
+	
+	
 
 	# get_ready_state() tells you what state the socket is in.
 	var state = socket.get_ready_state()
@@ -110,15 +119,27 @@ func _process(_delta: float) -> void:
 		socket_close_send = false
 		while socket.get_available_packet_count():
 			var data =  socket.get_packet().get_string_from_utf8()
-			print("Got data from server: ", data)
-			var json = JSON.new()
+			# print("Got data from server: ", data)	
 			var dict = JSON.parse_string(data)
-			if dict:
-				print(dict)	
+			# if dict:
+				# print(dict)	
 			if dict.has('uuid'):
 				_uuid = dict['uuid']
+				$Timer.wait_time = 30
 				(%UUIDText as LineEdit).text = _uuid
-
+			if dict.has('stocks'):
+				# print(dict['stocks'])
+				stocks.clear()
+				var stock_dict: Dictionary = dict['stocks']
+				print(stock_dict[stock_dict.keys()[0]])
+				for key in stock_dict.keys():
+					var stock = Stock.from_dict(stock_dict[key])
+					stocks.append(stock)
+				_last_month(stocks)
+				var names: Array[String] = []
+				for stock in stocks:
+					names.append(stock.name)
+				sab.stock_names = names
 		
 
 	
@@ -144,17 +165,21 @@ func _input(event: InputEvent) -> void:
 
 func attempt_connection():
 	var button: Button = (%ConnectButton as Button)
-	var err = socket.connect_to_url(websocket_url, TLSOptions.client_unsafe())
+	var err = socket.connect_to_url(websocket_url if not local else local_url, TLSOptions.client_unsafe())
 	button.text = "Please Wait..."
 	if err != OK:
 		button.text = "Please Retry"
 	else:
 		# Wait for the socket to connect.
-		await get_tree().create_timer(2).timeout
+		await get_tree().create_timer(5).timeout
 
 		# Send data.
 		socket.send_text("Test packet")
 		button.text = "Connected"
+		_poll()
+		var timer: Timer = $Timer
+		timer.timeout.connect(_poll)
+		timer.start()
 
 
 func _last_month(s: Array[Stock]):
@@ -177,3 +202,10 @@ func sell():
 	owned_stocks[stock] -= count
 	# socket stuff
 	pass
+
+# func _notification(what: int) -> void:
+# 	if what == NOTIFICATION_WM_QUIT_REQUEST:
+# 		if socket:
+# 			socket.close()
+	
+	

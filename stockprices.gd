@@ -17,3 +17,7 @@ func _init(o: float, h:float,l:float,cur:float,clo:float) -> void:
 
 static func random() -> StockPrices:
     return StockPrices.new(randf_range(100, 200), randf_range(200, 300), randf_range(50, 100), randf_range(100, 200), randf_range(100, 200))
+
+static func from_dict(dict: Dictionary) -> StockPrices:
+    return StockPrices.new(dict["open"], dict["high"], dict["low"], dict["current"], dict["close"])
+  

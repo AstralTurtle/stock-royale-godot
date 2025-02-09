@@ -170,6 +170,3 @@ visible = false
 layout_mode = 2
 script = ExtResource("6_n2iwc")
 metadata/_tab_index = 2
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 10000.0
