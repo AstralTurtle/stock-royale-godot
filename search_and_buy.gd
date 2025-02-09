@@ -71,9 +71,17 @@ func _show_data(s: Stock):
 func _graph_points(s: Stock):
 	plot.remove_all()
 
-	# plot.y_max = (s.history[0].high / 10000)
-	stock_chart.y_max = s.history[0].high + 2000
-	stock_chart.y_min = s.history[0].low
+	var sixmonthhigh = -1
+	var sixmonthlow  = 100000
+	for x in range(0,s.history.size()):	
+		if s.history[x].high > sixmonthhigh:
+			sixmonthhigh = s.history[x].high
+		if s.history[x].low < sixmonthlow:
+			sixmonthlow = s.history[x].low
+
+	
+	stock_chart.y_max = (sixmonthhigh * 1.1)
+	stock_chart.y_min = (sixmonthlow * 0.9)
 	var points: Array[float] = []
 
 	for x in range(6,-2,-1):

@@ -9,7 +9,7 @@ func display(players: Array[Player]):
     players.sort_custom(_sort_players)
     for x in range(0, min(10,players.size())):
         var _display: Label = Label.new()
-        _display.text = "%s\n---\n%.2f" % [players[x].Name, players[x].net_worth]
+        _display.text = "%s\n%.2f\n%s" % [players[x].Name, players[x].net_worth,players[x].wins]
         _display.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         _display.size_flags_vertical = Control.SIZE_EXPAND_FILL
         _display.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

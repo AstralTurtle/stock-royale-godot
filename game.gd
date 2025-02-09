@@ -32,6 +32,8 @@ var money: float = 10000:
 		return money
 	set(val):
 		money = val
+		if val >= goal_price:
+			_win()
 		_update_player_text()
 
 @export var goal_price: float
@@ -236,6 +238,17 @@ func _last_month(s: Array[Stock]):
 
 func _sab(s: Stock):
 	sab.display(s)
+
+func _win():
+	var request = {"type":RequestType.Win,"uuid":_uuid}
+	socket.send_text(JSON.stringify(request))
+	pass
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		var ke: InputEventKey = event
+		if ke.keycode == KEY_W:
+			money += 10000
 
 func _on_stock_bought():
 	var request = {"type":RequestType.Buy,"stock":sab.search.line_edit.text,"shares":sab.count.text.to_int(),"uuid":_uuid}

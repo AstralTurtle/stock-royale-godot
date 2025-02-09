@@ -3,6 +3,9 @@ class_name  LastMonth
 func display(stocks: Array[Stock]):
 	for child: Node in get_children():
 		child.queue_free()
+	var s = stocks
+	s.sort_custom(func(a,b): return a.name < b.name)
+
 	for stock: Stock in stocks:
 		var _display: Label = Label.new()
 		_display.text = "%s | %.2f" % [stock.name,stock.history[0].current]
