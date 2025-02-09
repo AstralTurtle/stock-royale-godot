@@ -4,6 +4,8 @@ class_name SearchAndBuy
 var plot: PlotItem 	
 
 @onready var search: StockSearch = $VBoxContainer/StockSearch
+@onready var count: LineEdit = %"StockCount"
+@onready var buy_button: Button = %"BuyButton"
 
 @export var stock_names: Array[String] = []:
 	get:
@@ -70,7 +72,8 @@ func _graph_points(s: Stock):
 	plot.remove_all()
 
 	# plot.y_max = (s.history[0].high / 10000)
-	stock_chart.y_max = s.history[0].high
+	stock_chart.y_max = s.history[0].high + 2000
+	stock_chart.y_min = s.history[0].low
 	var points: Array[float] = []
 
 	for x in range(6,-2,-1):

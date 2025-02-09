@@ -2,12 +2,10 @@ extends RefCounted
 class_name Stock
 
 var name: String
-var previousClose: float
 var history: Array[StockPrices]
 
-func _init(s: String, previous: float, hist: Array[StockPrices]) -> void:
+func _init(s: String, hist: Array[StockPrices]) -> void:
 	name = s
-	previousClose = previous
 	history = hist
 
 static func random() -> Stock:
@@ -15,7 +13,7 @@ static func random() -> Stock:
 	var history: Array[StockPrices] = []
 	for x in range(0, 30):
 		history.push_back(StockPrices.random())
-	return Stock.new(generate_word(characters,5), randf_range(100, 200), history)
+	return Stock.new(generate_word(characters,5),  history)
 
 
 
@@ -28,7 +26,7 @@ static func generate_word(chars, length):
 	return word.to_upper()
 
 static func from_dict(dict: Dictionary) -> Stock:
-	var history: Array[StockPrices] = []
+	var _history: Array[StockPrices] = []
 	for item in dict["history"]:
-		history.push_back(StockPrices.from_dict(item))
-	return Stock.new(dict["name"], dict["previousClose"], history)
+		_history.push_back(StockPrices.from_dict(item))
+	return Stock.new(dict["name"], _history)

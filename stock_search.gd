@@ -45,6 +45,7 @@ func _on_text_changed(new_text):
         popup_menu.popup()
     else:
         popup_menu.hide()
+    line_edit.call_deferred(grab_focus.get_method())
 
 # Update the PopupMenu with given items
 func update_popup_menu(items: Array):

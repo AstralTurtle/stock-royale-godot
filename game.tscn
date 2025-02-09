@@ -17,7 +17,11 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_nni12")
+starting_money = 10000.0
+goal_price = 100000.0
+websocket_url = "wss://echo.websocket.org"
 local = true
+local_url = "ws://127.0.0.1:8080"
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -67,16 +71,31 @@ vertical_alignment = 1
 [node name="TabContainer" type="TabContainer" parent="Panel/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 1
+current_tab = 0
+
+[node name="Last Month Values" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Last Month" type="GridContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Last Month Values"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1600, 191)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 10
+script = ExtResource("5_c3wgx")
 
 [node name="Search And Buy" parent="Panel/HBoxContainer/VBoxContainer/TabContainer" instance=ExtResource("4_4c30a")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Sell Stocks" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
-metadata/_tab_index = 1
+metadata/_tab_index = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks"]
 layout_mode = 2
@@ -91,7 +110,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+text = "1"
 placeholder_text = "number"
+alignment = 1
 
 [node name="Label2" type="Label" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks/HBoxContainer"]
 layout_mode = 2
@@ -103,10 +124,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="Label3" type="Label" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks/HBoxContainer"]
-layout_mode = 2
-text = " for ~ 100.00? "
-
 [node name="SellButton" type="Button" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Sell Stocks"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
@@ -115,20 +132,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 3
 text = "Sell
 "
-
-[node name="Last Month Values" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 2
-
-[node name="Last Month" type="GridContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/Last Month Values"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(1600, 191)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-columns = 10
-script = ExtResource("5_c3wgx")
 
 [node name="TabContainer" type="TabContainer" parent="Panel/HBoxContainer"]
 layout_mode = 2
@@ -140,9 +143,12 @@ drag_to_rearrange_enabled = true
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="LineEdit" type="LineEdit" parent="Panel/HBoxContainer/TabContainer/Profile"]
+[node name="PlayerName" type="Label" parent="Panel/HBoxContainer/TabContainer/Profile"]
+unique_name_in_owner = true
 layout_mode = 2
-placeholder_text = "Enter Nickname"
+text = "kofpwkapf"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="UUIDText" type="LineEdit" parent="Panel/HBoxContainer/TabContainer/Profile"]
 unique_name_in_owner = true
@@ -161,11 +167,13 @@ layout_mode = 2
 text = "Connect"
 
 [node name="News" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
 [node name="Scoreboard" type="VBoxContainer" parent="Panel/HBoxContainer/TabContainer"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 script = ExtResource("6_n2iwc")
