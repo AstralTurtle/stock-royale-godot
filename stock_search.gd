@@ -42,7 +42,7 @@ func _on_text_changed(new_text):
         var new_position = line_edit.get_global_position() + Vector2(0, line_edit.size.y)
         popup_menu.set_position(new_position)
         popup_menu.show()
-        popup_menu.popup()
+        popup_menu.popup(Rect2())
     else:
         popup_menu.hide()
     line_edit.call_deferred(grab_focus.get_method())
